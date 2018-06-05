@@ -70,3 +70,73 @@ var toggle_active_side_menu_item = function(element) {
   });
   element.classList.add("style_side_menu_item_active");
 };
+
+//Show/hide department detail
+var toggle_department_detail = function() {
+  var id_department_detail_wrapper = document.getElementById(
+    "id_department_detail_wrapper"
+  );
+  var id_department_detail_modal = document.getElementById(
+    "id_department_detail_modal"
+  );
+  var style_department_detail_modal = window.getComputedStyle(
+    id_department_detail_modal
+  );
+  id_department_detail_wrapper.classList.toggle(
+    "style_department_detail_wrapper_toggle"
+  );
+  if (style_department_detail_modal.marginTop == "-500px") {
+    id_department_detail_modal.style.marginTop = "100px";
+  } else {
+    id_department_detail_modal.style.marginTop = "-500px";
+  }
+};
+
+var toggle_department_detail_form = function() {
+  var id_department_detail_form_wrapper = document.getElementById(
+    "id_department_detail_form_wrapper"
+  );
+  var id_department_detail_form_modal = document.getElementById(
+    "id_department_detail_form_modal"
+  );
+  var style_department_detail_form_modal = window.getComputedStyle(
+    id_department_detail_form_modal
+  );
+  id_department_detail_form_wrapper.classList.toggle(
+    "style_department_detail_wrapper_toggle"
+  );
+  if (style_department_detail_form_modal.marginTop == "-500px") {
+    id_department_detail_form_modal.style.marginTop = "100px";
+  } else {
+    id_department_detail_form_modal.style.marginTop = "-500px";
+  }
+};
+
+//Toggle border when focus on text field
+var show_focus_border = function(id_focus_border_name) {
+  var id_focus_border = document.getElementById(id_focus_border_name);
+  id_focus_border.style.transform = "scaleX(1)";
+};
+
+var hide_focus_border = function(id_focus_border_name) {
+  var id_focus_border = document.getElementById(id_focus_border_name);
+  id_focus_border.style.transform = "scaleX(0)";
+};
+
+//Toggle label when focus on textfield
+var show_focus_label = function(id_focus_label_name) {
+  var id_focus_label = document.getElementById(id_focus_label_name);
+  id_focus_label.style.transform = "translate(0, 0px) scale(0.75)";
+};
+
+var hide_focus_label = function(id_focus_label_name) {
+  var input_search_value = document
+    .getElementById("id_department_management_search_form_input_text")
+    .value.trim();
+  if (input_search_value) {
+    //Do nothing
+  } else {
+    var id_focus_label = document.getElementById(id_focus_label_name);
+    id_focus_label.style.transform = "translate(0, 20px) scale(1)";
+  }
+};
