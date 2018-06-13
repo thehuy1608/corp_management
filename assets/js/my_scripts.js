@@ -71,47 +71,6 @@ var toggle_active_side_menu_item = function(element) {
   element.classList.add("style_side_menu_item_active");
 };
 
-//Show/hide department detail
-var toggle_department_detail = function() {
-  var id_department_detail_wrapper = document.getElementById(
-    "id_department_detail_wrapper"
-  );
-  var id_department_detail_modal = document.getElementById(
-    "id_department_detail_modal"
-  );
-  var style_department_detail_modal = window.getComputedStyle(
-    id_department_detail_modal
-  );
-  id_department_detail_wrapper.classList.toggle(
-    "style_department_detail_wrapper_toggle"
-  );
-  if (style_department_detail_modal.marginTop == "-500px") {
-    id_department_detail_modal.style.marginTop = "100px";
-  } else {
-    id_department_detail_modal.style.marginTop = "-500px";
-  }
-};
-
-var toggle_department_detail_form = function() {
-  var id_department_detail_form_wrapper = document.getElementById(
-    "id_department_detail_form_wrapper"
-  );
-  var id_department_detail_form_modal = document.getElementById(
-    "id_department_detail_form_modal"
-  );
-  var style_department_detail_form_modal = window.getComputedStyle(
-    id_department_detail_form_modal
-  );
-  id_department_detail_form_wrapper.classList.toggle(
-    "style_department_detail_wrapper_toggle"
-  );
-  if (style_department_detail_form_modal.marginTop == "-500px") {
-    id_department_detail_form_modal.style.marginTop = "100px";
-  } else {
-    id_department_detail_form_modal.style.marginTop = "-500px";
-  }
-};
-
 //Toggle border when focus on text field
 var show_focus_border = function(id_focus_border_name) {
   var id_focus_border = document.getElementById(id_focus_border_name);
@@ -129,14 +88,81 @@ var show_focus_label = function(id_focus_label_name) {
   id_focus_label.style.transform = "translate(0, 0px) scale(0.75)";
 };
 
-var hide_focus_label = function(id_focus_label_name) {
-  var input_search_value = document
-    .getElementById("id_department_management_search_form_input_text")
-    .value.trim();
+var hide_focus_label = function(id_focus_label_name, id_input_text) {
+  var input_search_value = document.getElementById(id_input_text).value.trim();
   if (input_search_value) {
     //Do nothing
   } else {
     var id_focus_label = document.getElementById(id_focus_label_name);
     id_focus_label.style.transform = "translate(0, 20px) scale(1)";
+  }
+};
+
+var toggle_active_pagination = function(id_clicked_pagination_button) {
+  $(".style_pagination_item_button").each(function() {
+    $(this).removeClass("style_pagination_item_button_active");
+  });
+  $(id_clicked_pagination_button).addClass(
+    "style_pagination_item_button_active"
+  );
+};
+
+var load_pagination = function(n) {
+  /* 
+  var total_pages = Math.floor(Math.random() * 100) + 7;
+  var pages_period = Math.floor(total_pages / 7) + 1; */
+  var button_id_prefix = "#id_pagination_item_button_";
+  var button_id;
+  for (var i = 1; i <= 7; i++) {
+    button_id = button_id_prefix + i;
+    $(button_id).text(i + 7 * (n - 1) - 1);
+    $(button_id).removeClass("style_pagination_item_button_active");
+  }
+  $("#id_pagination_item_button_1").addClass(
+    "style_pagination_item_button_active"
+  );
+};
+
+var current_active_button = 1;
+var current_page_number = 1;
+var pagination_next_button_action = function(last_page) {
+  if (current_page_number < last_page - 1) {
+    var button_id = "#id_pagination_item_button_" + (current_active_button + 1);
+    $(button_id).click();
+    current_active_button += 1;
+    current_page_number += 1;
+    if (current_active_button === 7) {
+      current_active_button = 1;
+    }
+  } else if (current_page_number === last_page - 1) {
+    toggle_active_pagination("#id_pagination_item_button_7");
+    current_page_number += 1;
+    current_active_button = 7;
+  }
+};
+
+
+var pagination_previous_button_action = function() {
+  var button_id_prefix = "#id_pagination_item_button_";
+  var button_id;
+  if (current_page_number >= 2) {
+    if (current_active_button === 1) {
+      var n = Math.floor(current_page_number / 7);
+      for (var i = 1; i <= 7; i++) {
+        button_id = button_id_prefix + i;
+        $(button_id).text(i + 7 * (n - 1));
+        $(button_id).removeClass("style_pagination_item_button_active");
+      }
+      $("#id_pagination_item_button_6").addClass(
+        "style_pagination_item_button_active"
+      );
+      current_active_button = 6;
+      current_page_number -= 1;
+    } else {
+      button_id = "#id_pagination_item_button_" + (current_active_button - 1);
+      $(button_id).click();
+      current_active_button -= 1;
+      current_page_number -= 1;
+    }
   }
 };
